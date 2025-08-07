@@ -1,0 +1,44 @@
+# ===============================
+# React Frontend
+# ===============================
+Frontend/node_modules/
+Frontend/dist/
+Frontend/build/
+
+# Logs
+npm-debug.log*
+*.log
+logs/
+
+# npm cache
+.npm/
+
+# eslint cache
+.eslintcache
+
+# REPL history
+.node_repl_history
+
+# Environment variables
+Frontend/.env
+Frontend/.env.local
+Frontend/.env.development.local
+Frontend/.env.test.local
+Frontend/.env.production.local
+
+# ===============================
+# Spring Boot Backend
+# ===============================
+Backend/target/
+Backend/.env
+
+# Environment
+.env
+
+# ===============================
+# IDE & OS Specific
+# ===============================
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
