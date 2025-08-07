@@ -96,7 +96,7 @@
    
     1. Clone the Repository
         in Terminal type
-        git clone https://github.com/your-Pushpamehta2k1/BookingApp.git
+        git clone https://github.com/KASHYAPCHETAN438/Conference-Booking-App.git
         cd conference-room-booking-app
        
     3. Install Dependencies
