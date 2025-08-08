@@ -31,7 +31,7 @@ const BookingCalendar = ({ refresh }) => {
         const userName = booking.user?.name || 'Unknown User';
         const userEmail = booking.user?.email || 'Unknown Email';
         const roomType = booking.room?.roomType || 'Room';
-        const phone = booking.user?.phoneNumber || 'Unknown Phone'; // ✅ updated here
+        const phone = booking.user?.phoneNumber || 'Unknown Phone'; 
         const timeSlots = Array.isArray(booking.timeSlots) ? booking.timeSlots : [];
 
         const sortedSlots = [...timeSlots].sort((a, b) =>
@@ -72,7 +72,7 @@ const BookingCalendar = ({ refresh }) => {
               userName: userName,
               roomType: roomType,
               userEmail: userEmail,
-              userPhone: phone // ✅ will now contain correct phone
+              userPhone: phone 
             }
           });
         });
