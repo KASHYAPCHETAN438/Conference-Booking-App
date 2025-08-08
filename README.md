@@ -201,12 +201,17 @@
     
 📊 System Architecture
     Frontend (ReactJS)
+    
         |
         ↓
+        
     Backend API (Spring API)
+    
         |
         ↓
+        
     Database (MySQL)
+    
     Frontend: React app for users to book rooms.
 
 
