@@ -253,13 +253,7 @@ Database: Stores rooms, users, and bookings (MySQL).
         Weekly view calendar for bookings
         Recurring meeting support
         Email templates 
-
-
-
-    👨‍💻 Author
-        Developed by Chetan
-        Email: Chetankashayap951@gmail.com
-
+        
 
 
 📘 Entity Relationships
@@ -293,4 +287,6 @@ Database: Stores rooms, users, and bookings (MySQL).
      
     -------------------------------------Demo Video LINK --------------------------------
     GOOGLE DRIVE LINK ARE HERE 
+    Email: Chetankashayap951@gmail.com
     https://drive.google.com/file/d/1OIf5E-DKD-E3mSojUthwxhuEC6Ia56KD/view?usp=drive_link
+    
