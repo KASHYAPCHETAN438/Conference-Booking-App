@@ -5,10 +5,11 @@
 
 2. Team Details
     - Team - tech Titans
-    - Members 
-    - Naresh Singh Mahara  : Naresh.mahara@anudip.org
-    - Chetan kashyap       : Chetankashyap951@gmail.com
-    - Pushpa Mehta         : mehtapushpa2k1@gmail.com
+    - Members
+    - Kapil Sharma (Center Manager) : Kapil.sharma@anudip.org
+    - Naresh Singh Mahara (Mentor)  : Naresh.mahara@anudip.org
+    - Chetan kashyap                : Chetankashyap951@gmail.com
+    - Pushpa Mehta                  : mehtapushpa2k1@gmail.com
       
 3.Tech Stack 
 
@@ -77,6 +78,16 @@
     spring.mail.properties.mail.smtp.starttls.enable=true
 
 
+    # JPA Config
+    spring.jpa.hibernate.ddl-auto=update
+    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+
+    # AWS S3 Config
+    aws.s3.secret.key  =Enter your secret key        
+    aws.s3.access.key  =Enter your access key
+    aws.s3.bucket.name =Enter Bucket name
+    aws.s3.region      =Enter region
+
     cd backend
     ./mvnw spring-boot:run
 
@@ -92,7 +103,7 @@
         Node.js (v18 or above)
         npm or yarn
         Git installed
-        (Optional) MySQL or MongoDB if using backend with database
+        MySQL database
    
     1. Clone the Repository
         in Terminal type
@@ -105,7 +116,7 @@
         yarn install
        
     4. Environment Variables
-        Create a .env file in the root directory and add necessary variables (example below):
+        INCreate a .env file in the root directory and add necessary variables (example below):
         env
         REACT_APP_API_BASE_URL=http://localhost:7070/api
         If backend is included, add DB config, secret keys, etc.
