@@ -2,8 +2,9 @@ import React, { useEffect, useState } from 'react';
 import FullCalendar from '@fullcalendar/react';
 import dayGridPlugin from '@fullcalendar/daygrid';
 import ApiService from '../../service/ApiService';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 
-// Convert HH:mm:ss to 12-hour format with AM/PM for display only
+// Convert HH:mm:ss to 12-hour format
 const formatTimeTo12Hour = (time) => {
   const [hour, minute] = time.split(':');
   const h = parseInt(hour, 10);
@@ -17,6 +18,8 @@ const areSlotsContinuous = (a, b) => a.endTime === b.startTime;
 
 const BookingCalendar = ({ refresh }) => {
   const [events, setEvents] = useState([]);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedBooking, setSelectedBooking] = useState(null);
 
   const fetchBookings = async () => {
     try {
@@ -31,7 +34,7 @@ const BookingCalendar = ({ refresh }) => {
         const userName = booking.user?.name || 'Unknown User';
         const userEmail = booking.user?.email || 'Unknown Email';
         const roomType = booking.room?.roomType || 'Room';
-        const phone = booking.user?.phoneNumber || 'Unknown Phone'; 
+        const phone = booking.user?.phoneNumber || 'Unknown Phone';
         const timeSlots = Array.isArray(booking.timeSlots) ? booking.timeSlots : [];
 
         const sortedSlots = [...timeSlots].sort((a, b) =>
@@ -56,7 +59,8 @@ const BookingCalendar = ({ refresh }) => {
         if (current) merged.push(current);
 
         merged.forEach((slot) => {
-          const isPast = new Date(date).setHours(0, 0, 0, 0) <
+          const isPast =
+            new Date(date).setHours(0, 0, 0, 0) <
             new Date().setHours(0, 0, 0, 0);
 
           const startFormatted = formatTimeTo12Hour(slot.startTime);
@@ -72,7 +76,7 @@ const BookingCalendar = ({ refresh }) => {
               userName: userName,
               roomType: roomType,
               userEmail: userEmail,
-              userPhone: phone 
+              userPhone: phone
             }
           });
         });
@@ -108,25 +112,40 @@ const BookingCalendar = ({ refresh }) => {
           );
         }}
         eventDidMount={(info) => {
-  const { userEmail, userPhone } = info.event.extendedProps;
-  
-  let tooltip = `
-Name: ${info.event.extendedProps.userName}
-Room: ${info.event.extendedProps.roomType}
-Email: ${userEmail || 'N/A'}
-Phone: ${userPhone || 'N/A'}`;
-  
-  info.el.setAttribute('title', tooltip);
+          const bookingDetails = {
+            title: info.event.title,
+            ...info.event.extendedProps
+          };
 
-  info.el.onclick = (e) => {
-    alert(`Booking Details:\n\n${info.event.title}\n${tooltip}`);
-    e.preventDefault();
-  };
-}}
-
+          info.el.onclick = () => {
+            setSelectedBooking(bookingDetails);
+            setDialogOpen(true);
+          };
+        }}
       />
+
+      {/* Booking Details Dialog */}
+      <Dialog open={dialogOpen} onClose={() => setDialogOpen(false)}>
+        <DialogTitle>Booking Details</DialogTitle>
+        <DialogContent>
+          {selectedBooking && (
+            <div className="Calender-booking-details">
+              <p><strong>Time:</strong> {selectedBooking.title}</p>
+              <p><strong>Name:</strong> {selectedBooking.userName}</p>
+              <p><strong>Room:</strong> {selectedBooking.roomType}</p>
+              <p><strong>Email:</strong> {selectedBooking.userEmail}</p>
+              <p><strong>Phone:</strong> {selectedBooking.userPhone}</p>
+              
+            </div>
+          )}
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={() => setDialogOpen(false)}>Close</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
 
 export default BookingCalendar;
+
