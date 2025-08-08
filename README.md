@@ -43,6 +43,7 @@
         Manage users and roles (if extended)
 
     ----------------------------- 📅 Time Slot Management -----------------------------
+   
     Each day is divided into 30-minute slots (e.g., 08:00–08:30, 08:30–09:00)
     Users can select a range of slots (start time to end time)
     Already booked slots are disabled
@@ -50,42 +51,62 @@
     is_booked flag updated automatically based on presence in booking_time_slot table
    
     -----------------------------  📨 Email Notifications -----------------------------
+   
     Booking Confirmation – sent when a user books a room
     Booking Update – sent after booking is updated
     Booking Cancellation – sent if admin or user cancels the booking
 
      -----------------------------  🔐 Authentication -----------------------------
+   
     JWT-based secure login system
     Role-based access control:
     USER – book/manage own bookings
     ADMIN – manage all bookings
 
     ----------------------------- Setup Introduction -----------------------------
+   
 
                         ⚙️ How to Run the Project & Set up Manually 
 
     --🛠 Backend (Spring Boot)--
-    Configure your application.properties:
-    spring.datasource.url=jdbc:mysql://localhost:3306/conference_booking
-    spring.datasource.username=root
-    spring.datasource.password=yourpassword
 
+    # Database Config
+    Configure your application.properties:
+   
+    spring.datasource.url=jdbc:mysql://localhost:3306/conference_booking
+   
+    spring.datasource.username=root
+   
+    spring.datasource.password=yourpassword
+   
+    # Mail Config
+   
     spring.mail.host=smtp.gmail.com
+   
     spring.mail.port=587
+   
     spring.mail.username=youremail@gmail.com
+   
     spring.mail.password=your-app-password
+   
     spring.mail.properties.mail.smtp.auth=true
+   
     spring.mail.properties.mail.smtp.starttls.enable=true
 
 
     # JPA Config
+   
     spring.jpa.hibernate.ddl-auto=update
-    spring.jpa.properties.hibernate.dialect=org.hibernate.dialect.MySQLDialect
+   
 
     # AWS S3 Config
-    aws.s3.secret.key  =Enter your secret key        
+   
+    aws.s3.secret.key  =Enter your secret key
+         
     aws.s3.access.key  =Enter your access key
+   
     aws.s3.bucket.name =Enter Bucket name
+   
     aws.s3.region      =Enter region
 
     cd backend
@@ -99,66 +120,85 @@
 6. ------------------------- Setup Introduction  -----------------------------
    
     Follow the steps below to set up and run the Conference Room Booking App locally:
+   
         Prerequisites:
+   
         Node.js (v18 or above)
         npm or yarn
         Git installed
         MySQL database
    
-    1. Clone the Repository
+    a. Clone the Repository
+   
         in Terminal type
         git clone https://github.com/KASHYAPCHETAN438/Conference-Booking-App.git
         cd conference-room-booking-app
+
        
-    3. Install Dependencies
+    b. Install Dependencies
+   
         npm install
         # or
         yarn install
+
        
-    4. Environment Variables
-        INCreate a .env file in the root directory and add necessary variables (example below):
-        env
-        REACT_APP_API_BASE_URL=http://localhost:7070/api
-        If backend is included, add DB config, secret keys, etc.
+    c. Environment Variables
+   
+        application.properties add necessary variables (example below):
+        Add DB config, secret keys, etc.
+
        
-    5. Run the App
+    d. Run the App
+   
         To start the frontend:
         npm start
         cd backend
         npm install
+
        
-    7. Access the Application
+    e. Access the Application
+   
         Open your browser and visit:
         http://localhost:7070
 
-7. Usage Guide 
+   
+
+8. Usage Guide 
 
     🏠 Home Page
+   
         Displays the main dashboard with a search form.
-        Users can select date, time slot, and capacity to search for available rooms.
+        Users can select date, time slot to search for available rooms.
     
     🔍 Search & Booking
+   
         Select:Date
-        Time Slot (e.g., 10:00 AM – 11:00 AM)
+        Time Slot (e.g., 09:30 AM – 07:00 PM)
         Click on Search Rooms.
         A list of available conference rooms will be displayed.
         Click Book Now on a room.
-        Fill in your name, Time, and purpose of meeting.
+        Select rooms date, and choose time slot for the meeting.
         Click Confirm Booking.
 
+
     📅 View My Bookings
-    Users can view their bookings from the "My Bookings" page (if available).
+   
+    Users can view their bookings from the "Bookings History inside profile page " (if available).
     Each booking will show:
         Room name
-        Date & Time
-        Booking status (Confirmed/Pending)
-
+        Date
+        Time slot
+        
     🛠 Admin Features (if available)
+   
         Login as admin to:
         Add/edit/delete rooms
         View all user bookings
+        cancel booking 
+
    
-8. API Endpoints / Architecture
+10. API Endpoints / Architecture
+    
 📊 System Architecture
     Frontend (ReactJS)
         |
@@ -169,27 +209,31 @@
     Database (MySQL)
     Frontend: React app for users to book rooms.
 
+
     Backend: RESTful API built using Spring Boot.
 
     ----------------- API Endpoints E.g ------------------------
-    -----------------------------------------------------------------------    
-    | Method   | Endpoint                  | Description                 |
-    | -------- | ------------------------- | --------------------------- |
-    | `GET`    | `/api/rooms`              | Get list of all rooms       |
-    | `POST`   | `/api/rooms/search`       | Search available rooms      |
-    | `POST`   | `/api/bookings`           | Create a new room booking   |
-    | `GET`    | `/api/bookings/:id`       | Get booking details by ID   |
-    | `GET`    | `/api/bookings/user/:uid` | Get all bookings for a user |
-    | `POST`   | `/api/auth/login`         | Login user/admin            |
-    | `POST`   | `/api/auth/register`      | Register new user           |
-    | `GET`    | `/api/admin/rooms`        | Admin: View all rooms       |
-    | `POST`   | `/api/admin/rooms`        | Admin: Add a new room       |
-    | `PUT`    | `/api/admin/rooms/:id`    | Admin: Update room details  |
-    | `DELETE` | `/api/admin/rooms/:id`    | Admin: Delete room          |
+    
+     -------------------------------------------------------------------------- 
+    | Method   | Endpoint                       | Description                  |
+    | -------- | ------------------------------ | -----------------------------|
+    | `POST`   | `/auth/register'               | Register a new user          |
+    | `POST`   | `/auth/login'                  | Login user/admin             |
+    | `GET `   | `/rooms/all'                   | Get all rooms                |
+    | `GET`    | `/rooms/room-by-id/{roomId}'   | Get room details by ID       |
+    | `GET`    | `/rooms/all-available-rooms'   | Get all available rooms      | 
+    | `POST`   | `/rooms/add'                   | Add a new room               |
+    | `PUT`    | `/rooms/update/{roomId}`       | Update room details          |
+    | `DELETE  | `/rooms/delete/{roomId}`       | Delete a room by Admin       |
+    | `PUT`    | `//users/update/{id}`          | Update user details          |
+    | `PosT`   | `/users/send-otp`              | Send OTP for password reset  |
+    
 
 Like we use these approach 
 ==========================
-Database: Stores rooms, users, and bookings (MySQL or MongoDB).
+
+Database: Stores rooms, users, and bookings (MySQL).
+
     📊 Database Tables
         user: stores users, roles
         room: stores conference room info
@@ -197,16 +241,19 @@ Database: Stores rooms, users, and bookings (MySQL or MongoDB).
         booking: stores booking date, confirmation code, room/user mapping
         booking_time_slot: join table between booking and time_slot
 
+
     🔮 Future Improvements
         Admin dashboard UI
         Room filtering (by type, capacity)
         Weekly view calendar for bookings
         Recurring meeting support
-        Email templates (HTML-based)
+        Email templates 
+
+
 
     👨‍💻 Author
         Developed by Chetan
-        📬 Email: Chetankashayap951@gmail.com
+        Email: Chetankashayap951@gmail.com
 
 
 
@@ -218,21 +265,25 @@ Database: Stores rooms, users, and bookings (MySQL or MongoDB).
         Mapped by: user
         Inverse side: Booking.user
 
+
         2. Room ↔ Booking
         Relation: One Room can have many Bookings
         Type: @OneToMany
         Mapped by: room
         Inverse side: Booking.room
 
+
         3. Booking ↔ TimeSlot
         Relation: One Booking can have many TimeSlots, and one TimeSlot can be associated with multiple Bookings
         Type: @ManyToMany
         Join Table: booking_time_slot
 
+
         4. Room ↔ TimeSlot
         Relation: One Room can have many TimeSlots
         Type: @ManyToOne (each TimeSlot belongs to a Room)
         Used For: Reference purpose (not for booking conflict, which is checked through booking_time_slot)
+
         
      
     -------------------------------------Demo Video LINK --------------------------------
