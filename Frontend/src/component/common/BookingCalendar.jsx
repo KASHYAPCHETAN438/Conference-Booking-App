@@ -24,7 +24,6 @@ const BookingCalendar = ({ refresh }) => {
       const bookings = response.bookingList;
 
       const calendarEvents = [];
-      const today = new Date();
 
       bookings.forEach((booking) => {
         const date = booking.checkInDate;
@@ -32,6 +31,7 @@ const BookingCalendar = ({ refresh }) => {
         const userName = booking.user?.name || 'Unknown User';
         const userEmail = booking.user?.email || 'Unknown Email';
         const roomType = booking.room?.roomType || 'Room';
+        const phone = booking.user?.phoneNumber || 'Unknown Phone'; // ✅ updated here
         const timeSlots = Array.isArray(booking.timeSlots) ? booking.timeSlots : [];
 
         const sortedSlots = [...timeSlots].sort((a, b) =>
@@ -56,9 +56,8 @@ const BookingCalendar = ({ refresh }) => {
         if (current) merged.push(current);
 
         merged.forEach((slot) => {
-          const eventDate = new Date(date);
-          const isPast = new Date(date).setHours(0, 0, 0, 0) < new Date().setHours(0, 0, 0, 0);
-
+          const isPast = new Date(date).setHours(0, 0, 0, 0) <
+            new Date().setHours(0, 0, 0, 0);
 
           const startFormatted = formatTimeTo12Hour(slot.startTime);
           const endFormatted = formatTimeTo12Hour(slot.endTime);
@@ -72,7 +71,8 @@ const BookingCalendar = ({ refresh }) => {
               confirmationCode: bookingCode,
               userName: userName,
               roomType: roomType,
-              userEmail: userEmail
+              userEmail: userEmail,
+              userPhone: phone // ✅ will now contain correct phone
             }
           });
         });
@@ -108,16 +108,22 @@ const BookingCalendar = ({ refresh }) => {
           );
         }}
         eventDidMount={(info) => {
-          const { userEmail } = info.event.extendedProps;
-          if (userEmail) {
-            const tooltip = `Name: ${info.event.extendedProps.userName}\nRoom: ${info.event.extendedProps.roomType}\nEmail: ${userEmail}`;
+  const { userEmail, userPhone } = info.event.extendedProps;
+  
+  let tooltip = `
+Name: ${info.event.extendedProps.userName}
+Room: ${info.event.extendedProps.roomType}
+Email: ${userEmail || 'N/A'}
+Phone: ${userPhone || 'N/A'}`;
+  
+  info.el.setAttribute('title', tooltip);
 
-            info.el.setAttribute('title', tooltip);
-          }
-          info.el.onclick = (e) => {
-            e.preventDefault();
-          };
-        }}
+  info.el.onclick = (e) => {
+    alert(`Booking Details:\n\n${info.event.title}\n${tooltip}`);
+    e.preventDefault();
+  };
+}}
+
       />
     </div>
   );
